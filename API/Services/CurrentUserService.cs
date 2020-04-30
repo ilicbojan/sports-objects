@@ -9,9 +9,9 @@ namespace API.Services
   {
     public CurrentUserService(IHttpContextAccessor httpContextAccessor)
     {
-      Username = httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+      UserId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 
-    public string Username { get; }
+    public string UserId { get; set; }
   }
 }

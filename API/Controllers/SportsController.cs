@@ -5,10 +5,12 @@ using Application.Sports.Commands.UpdateSport;
 using Application.Sports.Queries.GetSportDetails;
 using Application.Sports.Queries.GetSportsList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+  [AllowAnonymous]
   public class SportsController : ApiController
   {
     [HttpGet]
@@ -24,7 +26,7 @@ namespace API.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult<Unit>> Create(CreateSportCommand command)
+    public async Task<ActionResult<int>> Create(CreateSportCommand command)
     {
       return await Mediator.Send(command);
     }

@@ -43,7 +43,7 @@ namespace Application.Roles.Queries.GetRoleDetails
 
       foreach (var user in usersInRole)
       {
-        users.Add(new UserDto { Username = user.UserName });
+        users.Add(new UserDto { Id = user.Id, Username = user.UserName });
       }
 
       return new RoleVm

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Application.Countries.Commands.CreateCountry;
 using Application.Countries.Commands.DeleteCountry;
 using Application.Countries.Commands.UpdateCountry;
-using Application.Countries.Queries.GetCountries;
+using Application.Countries.Queries.GetCountriesList;
 using Application.Countries.Queries.GetCountryDetails;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +12,9 @@ namespace API.Controllers
   public class CountriesController : ApiController
   {
     [HttpGet]
-    public async Task<ActionResult<CountriesVm>> GetAll()
+    public async Task<ActionResult<CountriesListVm>> GetAll()
     {
-      return await Mediator.Send(new GetCountriesQuery());
+      return await Mediator.Send(new GetCountriesListQuery());
     }
 
     [HttpGet("{id}")]
@@ -24,7 +24,7 @@ namespace API.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult<Unit>> Create(CreateCountryCommand command)
+    public async Task<ActionResult<int>> Create(CreateCountryCommand command)
     {
       return await Mediator.Send(command);
     }

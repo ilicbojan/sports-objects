@@ -1,6 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Users.Queries.LoginUser;
 using Domain.Entities;
@@ -30,7 +29,7 @@ namespace Application.Users.Queries.CurrentUser
 
     public async Task<UserVm> Handle(CurrentUserQuery request, CancellationToken cancellationToken)
     {
-      var user = await _userManager.FindByNameAsync(_currentUserService.Username);
+      var user = await _userManager.FindByIdAsync(_currentUserService.UserId);
 
       var roles = await _userManager.GetRolesAsync(user);
 

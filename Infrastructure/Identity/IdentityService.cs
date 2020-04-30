@@ -17,12 +17,20 @@ namespace Infrastructure.Identity
       _userManager = userManager;
     }
 
-    public async Task<string> GetUserIdAsync(string username)
-    {
-      var user = await _userManager.Users.FirstAsync(u => u.UserName == username);
+    // public async Task<string> GetUserIdAsync(string username)
+    // {
+    //   var user = await _userManager.Users.FirstAsync(u => u.UserName == username);
 
-      return user.Id;
+    //   return user.Id;
+    // }
+
+    public async Task<string> GetUsernameAsync(string userId)
+    {
+      var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
+
+      return user.UserName;
     }
+
     public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)
     {
       var user = new AppUser

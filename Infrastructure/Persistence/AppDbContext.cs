@@ -18,6 +18,7 @@ namespace Infrastructure.Persistence
     public DbSet<Sport> Sports { get; set; }
     public DbSet<SportObject> SportObjects { get; set; }
     public DbSet<Review> Reviews { get; set; }
+    public DbSet<WorkingHour> WorkingHours { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

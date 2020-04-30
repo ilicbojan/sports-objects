@@ -16,6 +16,7 @@ namespace Domain.Entities
     public int CityId { get; set; }
 
     public virtual ICollection<Review> Reviews { get; set; }
+    public virtual ICollection<WorkingHour> WorkingHours { get; set; }
 
     public virtual Sport Sport { get; set; }
     public virtual City City { get; set; }

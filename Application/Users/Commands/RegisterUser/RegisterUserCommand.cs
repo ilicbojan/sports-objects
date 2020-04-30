@@ -42,6 +42,7 @@ namespace Application.Users.Commands.RegisterUser
       if (result.Succeeded)
       {
         await _userManager.AddToRoleAsync(user, "user");
+        
         var loginResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
         if (loginResult.Succeeded)
@@ -51,6 +52,7 @@ namespace Application.Users.Commands.RegisterUser
           return new UserVm
           {
             Token = _jwtGenerator.CreateToken(user),
+            Id = user.Id,
             Username = user.UserName,
             Roles = roles
           };

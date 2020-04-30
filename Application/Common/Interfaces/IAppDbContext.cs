@@ -13,6 +13,7 @@ namespace Application.Common.Interfaces
     DbSet<Sport> Sports { get; set; }
     DbSet<SportObject> SportObjects { get; set; }
     DbSet<Review> Reviews { get; set; }
+    DbSet<WorkingHour> WorkingHours { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
   }

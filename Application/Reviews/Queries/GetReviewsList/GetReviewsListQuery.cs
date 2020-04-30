@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
+using Application.Reviews.Queries.Dtos;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;

@@ -7,13 +7,13 @@ using MediatR;
 
 namespace Application.Cities.Commands.CreateCity
 {
-  public class CreateCityCommand : IRequest
+  public class CreateCityCommand : IRequest<int>
   {
     public string Name { get; set; }
     public int CountryId { get; set; }
   }
 
-  public class CreateCityCommandHandler : IRequestHandler<CreateCityCommand>
+  public class CreateCityCommandHandler : IRequestHandler<CreateCityCommand, int>
   {
     private readonly IAppDbContext _context;
     public CreateCityCommandHandler(IAppDbContext context)
@@ -21,7 +21,7 @@ namespace Application.Cities.Commands.CreateCity
       _context = context;
     }
 
-    public async Task<Unit> Handle(CreateCityCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateCityCommand request, CancellationToken cancellationToken)
     {
       var city = new City
       {
@@ -33,7 +33,7 @@ namespace Application.Cities.Commands.CreateCity
 
       await _context.SaveChangesAsync(cancellationToken);
 
-      return Unit.Value;
+      return city.Id;
     }
   }
 }

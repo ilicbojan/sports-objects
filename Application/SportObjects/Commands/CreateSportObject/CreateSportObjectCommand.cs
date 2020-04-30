@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Application.SportObjects.Commands.CreateSportObject
 {
-  public class CreateSportObjectCommand : IRequest
+  public class CreateSportObjectCommand : IRequest<int>
   {
     public string Email { get; set; }
     public string Name { get; set; }
@@ -20,7 +20,7 @@ namespace Application.SportObjects.Commands.CreateSportObject
     public int CityId { get; set; }
   }
 
-  public class CreateSportObjectCommandHandler : IRequestHandler<CreateSportObjectCommand>
+  public class CreateSportObjectCommandHandler : IRequestHandler<CreateSportObjectCommand, int>
   {
     private readonly IAppDbContext _context;
     public CreateSportObjectCommandHandler(IAppDbContext context)
@@ -28,7 +28,7 @@ namespace Application.SportObjects.Commands.CreateSportObject
       _context = context;
     }
 
-    public async Task<Unit> Handle(CreateSportObjectCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateSportObjectCommand request, CancellationToken cancellationToken)
     {
       var sportObject = new SportObject
       {
@@ -47,7 +47,7 @@ namespace Application.SportObjects.Commands.CreateSportObject
 
       await _context.SaveChangesAsync(cancellationToken);
 
-      return Unit.Value;
+      return sportObject.Id;
     }
   }
 }

@@ -26,11 +26,11 @@ namespace Application.Reviews.Commands.UpdateReview
 
     public async Task<Unit> Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
     {
-      var review = await _context.Reviews.FindAsync(_currentUserService.Username, request.SportObjectId);
+      var review = await _context.Reviews.FindAsync(_currentUserService.UserId, request.SportObjectId);
 
       if (review == null)
       {
-        throw new NotFoundException(nameof(Review), new { _currentUserService.Username, request.SportObjectId });
+        throw new NotFoundException(nameof(Review), new { _currentUserService.UserId, request.SportObjectId });
       }
 
       review.Rating = request.Rating;

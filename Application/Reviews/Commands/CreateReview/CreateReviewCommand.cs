@@ -29,7 +29,7 @@ namespace Application.Reviews.Commands.CreateReview
     {
       var review = new Review
       {
-        UserName = _currentUserService.Username,
+        UserId = _currentUserService.UserId,
         SportObjectId = request.SportObjectId,
         Rating = request.Rating,
         Comment = request.Comment,

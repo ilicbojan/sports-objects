@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Roles.Commands.CreateRole
 {
-  public class CreateRoleCommand : IRequest
+  public class CreateRoleCommand : IRequest<string>
   {
     public string Name { get; set; }
   }
 
-  public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand>
+  public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, string>
   {
     private readonly RoleManager<IdentityRole> _roleManager;
     public CreateRoleCommandHandler(RoleManager<IdentityRole> roleManager)
@@ -19,7 +19,7 @@ namespace Application.Roles.Commands.CreateRole
       _roleManager = roleManager;
     }
 
-    public async Task<Unit> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
       var identityRole = new IdentityRole { Name = request.Name };
 
@@ -27,7 +27,7 @@ namespace Application.Roles.Commands.CreateRole
 
       if (result.Succeeded)
       {
-        return Unit.Value;
+        return identityRole.Id;
       }
 
       throw new Exception("Problem creating role.");

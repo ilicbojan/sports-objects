@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Application.Common.Mappings;
+using Application.Countries.Queries.Dtos;
 using Domain.Entities;
 
 namespace Application.Countries.Queries.GetCountryDetails

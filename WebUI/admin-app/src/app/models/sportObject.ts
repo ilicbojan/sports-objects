@@ -1,5 +1,10 @@
+export interface ISportObjectsVm {
+  sportObjects: ISportObject[];
+  sportObjectsCount: number;
+}
+
 export interface ISportObject {
-  id: number;
+  id?: number;
   email: string;
   name: string;
   address: string;
@@ -7,25 +12,29 @@ export interface ISportObject {
   description: string;
   isPayed: boolean;
   isPremium: boolean;
+  sportId: number;
   sport: ISport;
+  cityId: number;
   city: ICity;
+  workingHours: IWorkingHour[];
   reviews: IReview[];
 }
 
-export interface ICity {
-  id: number;
-  name: string;
-  country: ICountry;
-}
-
-export interface ICountry {
+interface ISport {
   id: number;
   name: string;
 }
 
-export interface ISport {
+interface ICity {
   id: number;
   name: string;
+}
+
+interface IWorkingHour {
+  id: number;
+  day: number;
+  openTime: string;
+  closeTime: string;
 }
 
 interface IReview {

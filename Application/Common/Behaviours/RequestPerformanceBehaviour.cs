@@ -39,16 +39,16 @@ namespace Application.Common.Behaviours
       if (elapsedMilliseconds > 500)
       {
         var requestName = typeof(TRequest).Name;
-        var username = _currentUserService.Username ?? string.Empty;
-        var userId = string.Empty;
+        var userId = _currentUserService.UserId ?? string.Empty;
+        var userName = string.Empty;
 
-        if (!string.IsNullOrEmpty(username))
+        if (!string.IsNullOrEmpty(userId))
         {
-          userId = await _identityService.GetUserIdAsync(username);
+          userName = await _identityService.GetUsernameAsync(userId);
         }
 
-        _logger.LogWarning("SportObjects Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
-            requestName, elapsedMilliseconds, userId, username, request);
+        _logger.LogWarning("CleanArchitecture Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
+            requestName, elapsedMilliseconds, userId, userName, request);
       }
 
       return response;

@@ -5,7 +5,7 @@ namespace Application.Common.Interfaces
 {
   public interface IIdentityService
   {
-    Task<string> GetUserIdAsync(string username);
+    Task<string> GetUsernameAsync(string userId);
 
     Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
 

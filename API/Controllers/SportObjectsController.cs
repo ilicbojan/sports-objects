@@ -5,10 +5,12 @@ using Application.SportObjects.Commands.UpdateSportObject;
 using Application.SportObjects.Queries.GetSportObjectDetails;
 using Application.SportObjects.Queries.GetSportObjectsList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+  [AllowAnonymous]
   public class SportObjectsController : ApiController
   {
     [HttpGet]
@@ -24,7 +26,7 @@ namespace API.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult<Unit>> Create(CreateSportObjectCommand command)
+    public async Task<ActionResult<int>> Create(CreateSportObjectCommand command)
     {
       return await Mediator.Send(command);
     }

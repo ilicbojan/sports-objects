@@ -16,16 +16,15 @@ namespace Infrastructure.Persistence.Configurations
             .HasMaxLength(500);
 
       builder.Property(r => r.CreatedAt)
-            .HasMaxLength(30)
             .IsRequired();
 
 
-      builder.HasKey(r => new { r.UserName, r.SportObjectId });
+      builder.HasKey(r => new { r.UserId, r.SportObjectId });
 
       builder.HasOne(r => r.User)
             .WithMany(u => u.Reviews)
-            .HasForeignKey(r => r.UserName)
-            .HasPrincipalKey(u => u.UserName);
+            .HasForeignKey(r => r.UserId)
+            .HasPrincipalKey(u => u.Id);
 
       builder.HasOne(r => r.SportObject)
             .WithMany(so => so.Reviews)

@@ -22,17 +22,16 @@ namespace Application.Common.Behaviours
     public async Task Process(TRequest request, CancellationToken cancellationToken)
     {
       var requestName = typeof(TRequest).Name;
-      var username = _currentUserService.Username ?? string.Empty;
-      string userId = string.Empty;
+      var userId = _currentUserService.UserId ?? string.Empty;
+      string userName = string.Empty;
 
-      // !!! CHECK, error when using authorization, GetCurrentUser
-      if (!string.IsNullOrEmpty(username))
+      if (!string.IsNullOrEmpty(userId))
       {
-        userId = await _identityService.GetUserIdAsync(username);
+        userName = await _identityService.GetUsernameAsync(userId);
       }
 
-      _logger.LogInformation("SportObjects Request: {Name} {@UserId} {@UserName} {@Request}",
-          requestName, userId, username, request);
+      _logger.LogInformation("CleanArchitecture Request: {Name} {@UserId} {@UserName} {@Request}",
+          requestName, userId, userName, request);
     }
   }
 }

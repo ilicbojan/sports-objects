@@ -1,11 +1,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

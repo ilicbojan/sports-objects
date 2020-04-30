@@ -2,19 +2,20 @@ using System.Threading.Tasks;
 using Application.Cities.Commands.DeleteCity;
 using Application.Cities.Commands.CreateCity;
 using Application.Cities.Commands.UpdateCity;
-using Application.Cities.Queries.GetCities;
 using Application.Cities.Queries.GetCityDetails;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Application.Cities.Queries.GetCitiesList;
 
 namespace API.Controllers
 {
   public class CitiesController : ApiController
   {
     [HttpGet]
-    public async Task<ActionResult<CitiesVm>> GetAll()
+    public async Task<ActionResult<CitiesListVm>> GetAll()
     {
-      return await Mediator.Send(new GetCitiesQuery());
+      return await Mediator.Send(new GetCitiesListQuery());
     }
 
     [HttpGet("{id}")]
@@ -24,7 +25,7 @@ namespace API.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult<Unit>> Create(CreateCityCommand command)
+    public async Task<ActionResult<int>> Create(CreateCityCommand command)
     {
       return await Mediator.Send(command);
     }

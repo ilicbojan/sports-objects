@@ -68,7 +68,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
@@ -126,8 +125,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Review", b =>
                 {
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("SportObjectId")
                         .HasColumnType("int");
@@ -137,14 +136,13 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(500);
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasMaxLength(30);
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int")
                         .HasMaxLength(1);
 
-                    b.HasKey("UserName", "SportObjectId");
+                    b.HasKey("UserId", "SportObjectId");
 
                     b.HasIndex("SportObjectId");
 
@@ -219,6 +217,33 @@ namespace Infrastructure.Migrations
                     b.HasIndex("SportId");
 
                     b.ToTable("SportObjects");
+                });
+
+            modelBuilder.Entity("Domain.Entities.WorkingHour", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<TimeSpan>("CloseTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("Day")
+                        .HasColumnType("int")
+                        .HasMaxLength(1);
+
+                    b.Property<TimeSpan>("OpenTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("SportObjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SportObjectId");
+
+                    b.ToTable("WorkingHours");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -375,8 +400,7 @@ namespace Infrastructure.Migrations
 
                     b.HasOne("Domain.Entities.AppUser", "User")
                         .WithMany("Reviews")
-                        .HasForeignKey("UserName")
-                        .HasPrincipalKey("UserName")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -392,6 +416,15 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Sport", "Sport")
                         .WithMany("SportObjects")
                         .HasForeignKey("SportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.WorkingHour", b =>
+                {
+                    b.HasOne("Domain.Entities.SportObject", "SportObject")
+                        .WithMany("WorkingHours")
+                        .HasForeignKey("SportObjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

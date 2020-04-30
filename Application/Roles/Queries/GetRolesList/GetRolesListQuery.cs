@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,8 +15,10 @@ namespace Application.Roles.Queries.GetRolesList
   public class GetRolesListQueryHandler : IRequestHandler<GetRolesListQuery, RolesListVm>
   {
     private readonly RoleManager<IdentityRole> _roleManager;
-    public GetRolesListQueryHandler(RoleManager<IdentityRole> roleManager)
+    private readonly UserManager<AppUser> _userManager;
+    public GetRolesListQueryHandler(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
     {
+      _userManager = userManager;
       _roleManager = roleManager;
     }
 
@@ -29,7 +32,16 @@ namespace Application.Roles.Queries.GetRolesList
 
       foreach (var role in roles)
       {
-        vm.Roles.Add(new RoleDto { Id = role.Id, Name = role.Name });
+        var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+
+        var users = new List<UserDto>();
+
+        foreach (var user in usersInRole)
+        {
+          users.Add(new UserDto { Id = user.Id, Username = user.UserName });
+        }
+
+        vm.Roles.Add(new RoleDto { Id = role.Id, Name = role.Name, Users = users });
       }
 
       return vm;
