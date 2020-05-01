@@ -17,6 +17,7 @@ namespace Domain.Entities
 
     public virtual ICollection<Review> Reviews { get; set; }
     public virtual ICollection<WorkingHour> WorkingHours { get; set; }
+    public virtual ICollection<Price> Prices { get; set; }
 
     public virtual Sport Sport { get; set; }
     public virtual City City { get; set; }

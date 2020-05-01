@@ -17,8 +17,8 @@ namespace Application.SportObjects.Queries.GetSportObjectDetails
     public bool IsPremium { get; set; }
     public SportDto Sport { get; set; }
     public CityDto City { get; set; }
+    public IList<PriceDto> Prices { get; set; }
     public IList<WorkingHourDto> WorkingHours { get; set; }
     public IList<ReviewDto> Reviews { get; set; }
-
   }
 }

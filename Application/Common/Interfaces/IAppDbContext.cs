@@ -14,6 +14,7 @@ namespace Application.Common.Interfaces
     DbSet<SportObject> SportObjects { get; set; }
     DbSet<Review> Reviews { get; set; }
     DbSet<WorkingHour> WorkingHours { get; set; }
+    DbSet<Price> Prices { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
   }

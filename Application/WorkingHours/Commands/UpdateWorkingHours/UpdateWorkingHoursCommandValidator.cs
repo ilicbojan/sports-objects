@@ -7,7 +7,7 @@ namespace Application.WorkingHours.Commands.UpdateWorkingHours
     public UpdateWorkingHoursCommandValidator()
     {
       RuleFor(wh => wh.WorkingHours.Count)
-                  .InclusiveBetween(7, 7).WithMessage("Morate uneti radno vreme za sve dane");
+            .InclusiveBetween(7, 7).WithMessage("Morate uneti radno vreme za sve dane");
 
       RuleForEach(wh => wh.WorkingHours)
             .NotEmpty().WithMessage("Radno vreme je obavezno");
@@ -19,12 +19,10 @@ namespace Application.WorkingHours.Commands.UpdateWorkingHours
     public WorkingHourDtoValidator()
     {
       RuleFor(wh => wh.OpenTime)
-              .NotEmpty()
-              .WithMessage("Vreme otvaranja je obavezno");
+              .NotEmpty().WithMessage("Vreme otvaranja je obavezno");
 
       RuleFor(wh => wh.CloseTime)
-              .NotEmpty()
-              .WithMessage("Vreme zatvaranja je obavezno");
+              .NotEmpty().WithMessage("Vreme zatvaranja je obavezno");
     }
   }
 }
