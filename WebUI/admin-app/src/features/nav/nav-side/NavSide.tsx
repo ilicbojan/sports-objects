@@ -53,6 +53,17 @@ const NavSide = () => {
             <NavLink to='/sportobjects/create'>Create</NavLink>
           </Menu.Item>
         </SubMenu>
+        <SubMenu key='sub2' title={<span>Reservations</span>}>
+          <Menu.Item key='/reservations/overview'>
+            <NavLink to='/reservations/overview'>Overview</NavLink>
+          </Menu.Item>
+          <Menu.Item key='/reservations/list'>
+            <NavLink to='/reservations/list'>List</NavLink>
+          </Menu.Item>
+          <Menu.Item key='/reservations/create'>
+            <NavLink to='/reservations/create'>Create</NavLink>
+          </Menu.Item>
+        </SubMenu>
         <Menu.Item key='/roles'>
           <NavLink to='/roles'>Roles</NavLink>
         </Menu.Item>

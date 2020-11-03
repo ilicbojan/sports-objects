@@ -9,6 +9,8 @@ import CountryStore from './countryStore';
 import ReviewStore from './reviewStore';
 import RoleStore from './roleStore';
 import WorkingHourStore from './workingHourStore';
+import PriceStore from './priceStore';
+import ReservationStore from './reservationStore';
 
 configure({ enforceActions: 'always' });
 
@@ -22,6 +24,8 @@ export class RootStore {
   reviewStore: ReviewStore;
   roleStore: RoleStore;
   workingHourStore: WorkingHourStore;
+  priceStore: PriceStore;
+  reservationStore: ReservationStore;
 
   constructor() {
     this.sportObjectStore = new SportObjectStore(this);
@@ -33,6 +37,8 @@ export class RootStore {
     this.reviewStore = new ReviewStore(this);
     this.roleStore = new RoleStore(this);
     this.workingHourStore = new WorkingHourStore(this);
+    this.priceStore = new PriceStore(this);
+    this.reservationStore = new ReservationStore(this);
   }
 }
 

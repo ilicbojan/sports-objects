@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Form, Row, Col, Select, Button, Input, Spin, Space } from 'antd';
 import { useForm } from 'antd/lib/form/util';
@@ -16,10 +16,6 @@ const WorkingHoursCreate = () => {
   const [form] = useForm();
 
   const { Option } = Select;
-
-  useEffect(() => {
-    form.resetFields();
-  });
 
   const handleFinish = (values: any) => {
     let updatedWorkingHours: IWorkingHoursFormValues = {

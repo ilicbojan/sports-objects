@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, Fragment } from 'react';
+import React, { useContext, Fragment } from 'react';
 import { Table, Button, Input, Row, Form, Spin } from 'antd';
 import { ISportObject } from '../../../app/models/sportObject';
 import { ColumnProps } from 'antd/lib/table';
@@ -12,15 +12,10 @@ const SportObjectsList = () => {
   const {
     sportObjectsRegistry,
     loadingInitial,
-    loadSportObjects,
     submitting,
     deleteSportObject,
     target,
   } = rootStore.sportObjectStore;
-
-  useEffect(() => {
-    loadSportObjects();
-  }, [loadSportObjects]);
 
   const columns: ColumnProps<ISportObject>[] = [
     {

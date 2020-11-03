@@ -16,8 +16,10 @@ export interface ISportObject {
   sport: ISport;
   cityId: number;
   city: ICity;
+  prices: IPrice[];
   workingHours: IWorkingHour[];
   reviews: IReview[];
+  reservations: IReservation[];
 }
 
 interface ISport {
@@ -28,6 +30,13 @@ interface ISport {
 interface ICity {
   id: number;
   name: string;
+}
+
+interface IPrice {
+  id: number;
+  pricePerHour: number;
+  timeFrom: string;
+  timeTo: string;
 }
 
 interface IWorkingHour {
@@ -42,4 +51,23 @@ interface IReview {
   rating: number;
   comment: string;
   createdAt: Date;
+}
+
+interface IReservation {
+  id: number;
+  startTime: string;
+  endtTime: string;
+  date: Date;
+  user: IUser;
+  status: IReservationStatus;
+}
+
+interface IUser {
+  id: string;
+  username: string;
+}
+
+interface IReservationStatus {
+  id: number;
+  status: string;
 }

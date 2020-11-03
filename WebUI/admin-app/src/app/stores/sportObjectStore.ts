@@ -78,6 +78,9 @@ export default class SportObjectStore {
         sportObject.sportId
       );
       sportObject.city = this.rootStore.cityStore.getCity(sportObject.cityId);
+      sportObject.prices = [];
+      sportObject.reviews = [];
+      sportObject.reservations = [];
       runInAction(() => {
         this.sportObjectsRegistry.set(sportObject.id, sportObject);
         this.submitting = false;

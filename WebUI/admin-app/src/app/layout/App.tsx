@@ -29,6 +29,8 @@ import CityDetails from '../../features/cities/details/CityDetails';
 import RoleDashboard from '../../features/roles/dashboard/RoleDashboard';
 import RoleDetails from '../../features/roles/details/RoleDetails';
 import ReviewDashboard from '../../features/reviews/dashboard/ReviewDashboard';
+import ReservationCreate from '../../features/reservations/create/ReservationCreate';
+import ReservationsList from '../../features/reservations/list/ReservationsList';
 
 Spin.setDefaultIndicator(<LoadingOutlined style={{ fontSize: 24 }} spin />);
 
@@ -36,6 +38,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
   const { appLoaded, setAppLoaded, token } = rootStore.commonStore;
   const { getUser } = rootStore.userStore;
+  const { loadSportObjects } = rootStore.sportObjectStore;
+  const { loadReservations } = rootStore.reservationStore;
 
   useEffect(() => {
     if (token) {
@@ -43,7 +47,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
     } else {
       setAppLoaded();
     }
-  }, [getUser, setAppLoaded, token]);
+    loadSportObjects();
+    loadReservations();
+  }, [getUser, setAppLoaded, token, loadSportObjects, loadReservations]);
 
   if (!appLoaded) return <Spin tip='Loadin app..'></Spin>;
 
@@ -83,6 +89,14 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                     <PrivateRoute
                       path='/sportobjects/details/:id'
                       component={SportObjectDetails}
+                    />
+                    <PrivateRoute
+                      path='/reservations/create'
+                      component={ReservationCreate}
+                    />
+                    <PrivateRoute
+                      path='/reservations/list'
+                      component={ReservationsList}
                     />
                     <PrivateRoute
                       exact

@@ -20,6 +20,7 @@ export const closeHours = [
 
 export const getDay = (day: number) => {
   var dayText;
+
   switch (day) {
     case 1:
       dayText = 'Ponedeljak';
@@ -43,5 +44,6 @@ export const getDay = (day: number) => {
       dayText = 'Nedelja';
       break;
   }
+
   return dayText;
 };

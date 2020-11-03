@@ -9,6 +9,9 @@ import { ICountriesVm, ICountry } from '../models/country';
 import { IReviewsVm } from '../models/review';
 import { IRolesVm, IRole } from '../models/role';
 import { IWorkingHoursFormValues } from '../models/workingHour';
+import { IPrice } from '../models/price';
+import { IReservation, IReservationsListVm } from '../models/reservation';
+import { IFreeTermsVm } from '../models/freeTerm';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -85,13 +88,13 @@ const Roles = {
 };
 
 const SportObjects = {
-  list: (): Promise<ISportObjectsVm> => requests.get('/sportobjects'),
-  details: (id: number) => requests.get(`/sportobjects/${id}`),
+  list: (): Promise<ISportObjectsVm> => requests.get('/sport-objects'),
+  details: (id: number) => requests.get(`/sport-objects/${id}`),
   create: (sportObject: ISportObject) =>
-    requests.post('/sportobjects', sportObject),
+    requests.post('/sport-objects', sportObject),
   update: (sportObject: ISportObject) =>
-    requests.put(`/sportobjects/${sportObject.id}`, sportObject),
-  delete: (id: number) => requests.del(`/sportobjects/${id}`),
+    requests.put(`/sport-objects/${sportObject.id}`, sportObject),
+  delete: (id: number) => requests.del(`/sport-objects/${id}`),
 };
 
 const WorkingHours = {
@@ -107,8 +110,25 @@ const WorkingHours = {
     ),
 };
 
+const Prices = {
+  create: (price: IPrice) => requests.post('/prices', price),
+  update: (price: IPrice) => requests.put(`/prices/${price.id}`, price),
+  delete: (id: number) => requests.del(`/prices/${id}`),
+};
+
 const Reviews = {
   list: (): Promise<IReviewsVm> => requests.get('/reviews'),
+};
+
+const Reservations = {
+  list: (): Promise<IReservationsListVm> => requests.get('/reservations'),
+  create: (reservation: IReservation) =>
+    requests.post('/reservations', reservation),
+  approve: (reservation: IReservation) =>
+    requests.put(`/reservations/${reservation.id}`, reservation),
+  delete: (id: number) => requests.del(`/reservations/${id}`),
+  getFreeTerms: (id: number): Promise<IFreeTermsVm> =>
+    requests.get(`/sportobjects/${id}/freeterms`),
 };
 
 const Countries = {
@@ -146,4 +166,6 @@ export default {
   Sports,
   Roles,
   WorkingHours,
+  Prices,
+  Reservations,
 };

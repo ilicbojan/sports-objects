@@ -9,6 +9,8 @@ import NotFound from '../../../app/layout/NotFound';
 import SportObjectReviewsList from '../reviews-list/SportObjectReviewsList';
 import WorkingHoursCreate from '../working-hours/WorkingHoursCreate';
 import WorkingHoursEdit from '../working-hours/WorkingHoursEdit';
+import PricesDashboard from '../prices/PricesDashboard';
+import SportObjectReservationList from '../reservationList/SportObjectReservationList';
 
 const SportObjectDetails: React.FC<RouteComponentProps<{ id: string }>> = ({
   match,
@@ -40,12 +42,12 @@ const SportObjectDetails: React.FC<RouteComponentProps<{ id: string }>> = ({
         <h2>{sportObject.name}</h2>
       </S.HeaderContainer>
       <S.ContentContainer>
-        <Tabs defaultActiveKey='2'>
-          {/* <TabPane tab='Info' key='1'>
-            Informations
-          </TabPane> */}
-          <TabPane tab='Edit' key='2'>
+        <Tabs defaultActiveKey='1'>
+          <TabPane tab='Edit' key='1'>
             <SportObjectEdit />
+          </TabPane>
+          <TabPane tab='Prices' key='2'>
+            <PricesDashboard />
           </TabPane>
           <TabPane tab='Work hours' key='3'>
             {sportObject.workingHours === undefined ||
@@ -57,6 +59,9 @@ const SportObjectDetails: React.FC<RouteComponentProps<{ id: string }>> = ({
           </TabPane>
           <TabPane tab='Reviews' key='4'>
             <SportObjectReviewsList />
+          </TabPane>
+          <TabPane tab='Reservations' key='5'>
+            <SportObjectReservationList />
           </TabPane>
         </Tabs>
       </S.ContentContainer>
