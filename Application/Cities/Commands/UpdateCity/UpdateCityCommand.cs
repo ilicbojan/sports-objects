@@ -8,36 +8,37 @@ using MediatR;
 
 namespace Application.Cities.Commands.UpdateCity
 {
-  public class UpdateCityCommand : IRequest
-  {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public int CountryId { get; set; }
-  }
-
-  public class UpdateCityCommandHandler : IRequestHandler<UpdateCityCommand>
-  {
-    private readonly IAppDbContext _context;
-    public UpdateCityCommandHandler(IAppDbContext context)
+    public class UpdateCityCommand : IRequest
     {
-      _context = context;
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int CountryId { get; set; }
     }
 
-    public async Task<Unit> Handle(UpdateCityCommand request, CancellationToken cancellationToken)
+    public class UpdateCityCommandHandler : IRequestHandler<UpdateCityCommand>
     {
-      var city = await _context.Cities.FindAsync(request.Id);
+        private readonly IAppDbContext _context;
 
-      if (city == null)
-      {
-        throw new NotFoundException(nameof(City), request.Id);
-      }
+        public UpdateCityCommandHandler(IAppDbContext context)
+        {
+            _context = context;
+        }
 
-      city.Name = request.Name;
-      city.CountryId = request.CountryId;
+        public async Task<Unit> Handle(UpdateCityCommand request, CancellationToken cancellationToken)
+        {
+            var city = await _context.Cities.FindAsync(request.Id);
 
-      await _context.SaveChangesAsync(cancellationToken);
+            if (city == null)
+            {
+                throw new NotFoundException(nameof(City), request.Id);
+            }
 
-      return Unit.Value;
+            city.Name = request.Name;
+            city.CountryId = request.CountryId;
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return Unit.Value;
+        }
     }
-  }
 }

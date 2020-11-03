@@ -3,39 +3,61 @@ using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Reviews.Commands.DeleteReview
 {
-  public class DeleteReviewCommand : IRequest
-  {
-    public int SportObjectId { get; set; }
-  }
-
-  public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand>
-  {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IAppDbContext _context;
-    public DeleteReviewCommandHandler(IAppDbContext context, ICurrentUserService currentUserService)
+    public class DeleteReviewCommand : IRequest
     {
-      _context = context;
-      _currentUserService = currentUserService;
+        public int SportObjectId { get; set; }
+        public string UserId { get; set; }
     }
 
-    public async Task<Unit> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
+    public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand>
     {
-      var review = await _context.Reviews.FindAsync(_currentUserService.UserId, request.SportObjectId);
+        private readonly ICurrentUserService _currentUserService;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IAppDbContext _context;
 
-      if (review == null)
-      {
-        throw new NotFoundException(nameof(Review), new { _currentUserService.UserId, request.SportObjectId, });
-      }
+        public DeleteReviewCommandHandler(IAppDbContext context, ICurrentUserService currentUserService, UserManager<AppUser> userManager)
+        {
+            _context = context;
+            _currentUserService = currentUserService;
+            _userManager = userManager;
+        }
 
-      _context.Reviews.Remove(review);
+        public async Task<Unit> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
+        {
+            var user = await _context.Users.FindAsync(_currentUserService.UserId);
+            var isAdmin = await _userManager.IsInRoleAsync(user, RolesEnum.Admin);
+            Review review;
 
-      await _context.SaveChangesAsync(cancellationToken);
+            if (isAdmin)
+            {
+                review = await _context.Reviews.FindAsync(request.UserId, request.SportObjectId);
 
-      return Unit.Value;
+                if (review == null)
+                {
+                    throw new NotFoundException(nameof(Review), new { request.UserId, request.SportObjectId, });
+                }
+            }
+            else
+            {
+                review = await _context.Reviews.FindAsync(user.Id, request.SportObjectId);
+
+                if (review == null)
+                {
+                    throw new NotFoundException(nameof(Review), new { user.Id, request.SportObjectId, });
+                }
+            }
+
+            _context.Reviews.Remove(review);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return Unit.Value;
+        }
     }
-  }
 }

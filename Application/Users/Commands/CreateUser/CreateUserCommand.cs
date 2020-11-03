@@ -6,37 +6,38 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Users.Commands.CreateUser
 {
-  public class CreateUserCommand : IRequest<string>
-  {
-    public string Email { get; set; }
-    public string Password { get; set; }
-    public string Role { get; set; }
-  }
-
-  public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string>
-  {
-    private readonly UserManager<AppUser> _userManager;
-    public CreateUserCommandHandler(UserManager<AppUser> userManager)
+    public class CreateUserCommand : IRequest<string>
     {
-      _userManager = userManager;
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
     }
 
-    public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string>
     {
-      var user = new AppUser
-      {
-        Email = request.Email,
-        UserName = request.Email
-      };
+        private readonly UserManager<AppUser> _userManager;
+        public CreateUserCommandHandler(UserManager<AppUser> userManager)
+        {
+            _userManager = userManager;
+        }
 
-      var result = await _userManager.CreateAsync(user, request.Password);
+        public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        {
+            var user = new AppUser
+            {
+                Email = request.Email,
+                UserName = request.Username
+            };
 
-      if (result.Succeeded)
-      {
-        await _userManager.AddToRoleAsync(user, request.Role);
-      }
+            var result = await _userManager.CreateAsync(user, request.Password);
 
-      return user.Id;
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, request.Role);
+            }
+
+            return user.Id;
+        }
     }
-  }
 }

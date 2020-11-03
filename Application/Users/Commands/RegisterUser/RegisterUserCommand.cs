@@ -1,65 +1,79 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Application.Users.Queries.LoginUser;
 using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Users.Commands.RegisterUser
 {
-  public class RegisterUserCommand : IRequest<UserVm>
-  {
-    public string Email { get; set; }
-    public string Password { get; set; }
-  }
-
-  public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, UserVm>
-  {
-    private readonly UserManager<AppUser> _userManager;
-    private readonly SignInManager<AppUser> _signInManager;
-    private readonly IJwtGenerator _jwtGenerator;
-    public RegisterUserCommandHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtGenerator jwtGenerator)
+    public class RegisterUserCommand : IRequest<UserVm>
     {
-      _jwtGenerator = jwtGenerator;
-      _signInManager = signInManager;
-      _userManager = userManager;
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Password { get; set; }
     }
 
-    public async Task<UserVm> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, UserVm>
     {
-      var user = new AppUser
-      {
-        Email = request.Email,
-        UserName = request.Email
-      };
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IJwtGenerator _jwtGenerator;
+        private readonly IVerificationService _verificationService;
 
-      var result = await _userManager.CreateAsync(user, request.Password);
-
-      if (result.Succeeded)
-      {
-        await _userManager.AddToRoleAsync(user, "user");
-        
-        var loginResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-
-        if (loginResult.Succeeded)
+        public RegisterUserCommandHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtGenerator jwtGenerator, IVerificationService verificationService)
         {
-          var roles = await _userManager.GetRolesAsync(user);
-
-          return new UserVm
-          {
-            Token = _jwtGenerator.CreateToken(user),
-            Id = user.Id,
-            Username = user.UserName,
-            Roles = roles
-          };
+            _jwtGenerator = jwtGenerator;
+            _verificationService = verificationService;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
-      }
 
-      throw new Exception("Problem creating user");
+        public async Task<UserVm> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        {
+            var user = new AppUser
+            {
+                Email = request.Email,
+                UserName = request.Username,
+                PhoneNumber = request.PhoneNumber,
+                IsVerified = false
+            };
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, RolesEnum.User);
+
+                // TODO: Uncomment in production
+                //var verification = await _verificationService.StartVerificationAsync(user.PhoneNumber);
+
+                //if (verification.IsValid)
+                //{
+                    var loginResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
+                    if (loginResult.Succeeded)
+                    {
+                        var roles = await _userManager.GetRolesAsync(user);
+
+                        return new UserVm
+                        {
+                            Token = await _jwtGenerator.CreateToken(user),
+                            Id = user.Id,
+                            Username = user.UserName,
+                            PhoneNumber = user.PhoneNumber,
+                            IsClient = await _userManager.IsInRoleAsync(user, RolesEnum.Client),
+                            Roles = roles
+                        };
+                    }
+                //}
+            }
+
+            throw new Exception("Problem creating user");
+        }
     }
-  }
 }

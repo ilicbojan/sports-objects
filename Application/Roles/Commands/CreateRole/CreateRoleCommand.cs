@@ -1,36 +1,36 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Roles.Commands.CreateRole
 {
-  public class CreateRoleCommand : IRequest<string>
-  {
-    public string Name { get; set; }
-  }
-
-  public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, string>
-  {
-    private readonly RoleManager<IdentityRole> _roleManager;
-    public CreateRoleCommandHandler(RoleManager<IdentityRole> roleManager)
+    public class CreateRoleCommand : IRequest<string>
     {
-      _roleManager = roleManager;
+        public string Name { get; set; }
     }
 
-    public async Task<string> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+    public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, string>
     {
-      var identityRole = new IdentityRole { Name = request.Name };
+        private readonly IIdentityService _identityService;
 
-      IdentityResult result = await _roleManager.CreateAsync(identityRole);
+        public CreateRoleCommandHandler(IIdentityService identityService)
+        {
+            _identityService = identityService;
+        }
 
-      if (result.Succeeded)
-      {
-        return identityRole.Id;
-      }
+        public async Task<string> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _identityService.CreateRoleAsync(request.Name);
 
-      throw new Exception("Problem creating role.");
+            if (result.Result.Succeeded)
+            {
+                return result.RoleId;
+            }
+
+            throw new Exception("Problem creating role.");
+        }
     }
-  }
 }

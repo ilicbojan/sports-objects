@@ -4,15 +4,17 @@ using Application.Sports.Commands.DeleteSport;
 using Application.Sports.Commands.UpdateSport;
 using Application.Sports.Queries.GetSportDetails;
 using Application.Sports.Queries.GetSportsList;
+using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-  [AllowAnonymous]
+  [Authorize(Roles = RolesEnum.Admin)]
   public class SportsController : ApiController
   {
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<SportsListVm>> GetAll()
     {

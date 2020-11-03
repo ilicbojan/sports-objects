@@ -2,44 +2,37 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
+using Application.Common.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Roles.Commands.UpdateRole
 {
-  public class UpdateRoleCommand : IRequest
-  {
-    public string Id { get; set; }
-    public string Name { get; set; }
-  }
-
-  public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand>
-  {
-    private readonly RoleManager<IdentityRole> _roleManager;
-    public UpdateRoleCommandHandler(RoleManager<IdentityRole> roleManager)
+    public class UpdateRoleCommand : IRequest
     {
-      _roleManager = roleManager;
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 
-    public async Task<Unit> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
+    public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand>
     {
-      var role = await _roleManager.FindByIdAsync(request.Id);
+        private readonly IIdentityService _identityService;
 
-      if (role == null)
-      {
-        throw new NotFoundException(nameof(IdentityRole), request.Name);
-      }
+        public UpdateRoleCommandHandler(IIdentityService identityService)
+        {
+            _identityService = identityService;
+        }
 
-      role.Name = request.Name;
+        public async Task<Unit> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _identityService.UpdateRoleAsync(request.Id, request.Name);
 
-      var result = await _roleManager.UpdateAsync(role);
+            if (result.Succeeded)
+            {
+                return Unit.Value;
+            }
 
-      if (result.Succeeded)
-      {
-        return Unit.Value;
-      }
-
-      throw new Exception("Problem updating role.");
+            throw new Exception("Problem updating role.");
+        }
     }
-  }
 }

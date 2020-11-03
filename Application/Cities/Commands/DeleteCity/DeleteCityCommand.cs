@@ -8,33 +8,34 @@ using MediatR;
 
 namespace Application.Cities.Commands.DeleteCity
 {
-  public class DeleteCityCommand : IRequest
-  {
-    public int Id { get; set; }
-  }
-
-  public class DeleteCityCommandHandler : IRequestHandler<DeleteCityCommand>
-  {
-    private readonly IAppDbContext _context;
-    public DeleteCityCommandHandler(IAppDbContext context)
+    public class DeleteCityCommand : IRequest
     {
-      _context = context;
+        public int Id { get; set; }
     }
 
-    public async Task<Unit> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
+    public class DeleteCityCommandHandler : IRequestHandler<DeleteCityCommand>
     {
-      var city = await _context.Cities.FindAsync(request.Id);
+        private readonly IAppDbContext _context;
 
-      if (city == null)
-      {
-        throw new NotFoundException(nameof(City), request.Id);
-      }
+        public DeleteCityCommandHandler(IAppDbContext context)
+        {
+            _context = context;
+        }
 
-      _context.Cities.Remove(city);
+        public async Task<Unit> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
+        {
+            var city = await _context.Cities.FindAsync(request.Id);
 
-      await _context.SaveChangesAsync(cancellationToken);
+            if (city == null)
+            {
+                throw new NotFoundException(nameof(City), request.Id);
+            }
 
-      return Unit.Value;
+            _context.Cities.Remove(city);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return Unit.Value;
+        }
     }
-  }
 }

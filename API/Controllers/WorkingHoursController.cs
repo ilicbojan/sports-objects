@@ -1,28 +1,31 @@
 using System.Threading.Tasks;
 using Application.WorkingHours.Commands.CreateWorkingHours;
 using Application.WorkingHours.Commands.UpdateWorkingHours;
+using Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-  [Route("api/sportObjects")]
-  public class WorkingHoursController : ApiController
-  {
-    [HttpPost("{id}/workingHours")]
-    public async Task<ActionResult<Unit>> Create(int id, CreateWorkingHoursCommand command)
+    [Authorize(Roles = RolesEnum.Admin + "," + RolesEnum.Client)]
+    [Route("api/sport-objects")]
+    public class WorkingHoursController : ApiController
     {
-      command.SportObjectId = id;
+        [HttpPost("{id}/working-hours")]
+        public async Task<ActionResult<Unit>> Create(int id, CreateWorkingHoursCommand command)
+        {
+            command.SportObjectId = id;
 
-      return await Mediator.Send(command);
+            return await Mediator.Send(command);
+        }
+
+        [HttpPut("{id}/working-hours")]
+        public async Task<ActionResult<Unit>> Update(int id, UpdateWorkingHoursCommand command)
+        {
+            command.SportObjectId = id;
+
+            return await Mediator.Send(command);
+        }
     }
-
-    [HttpPut("{id}/workingHours")]
-    public async Task<ActionResult<Unit>> Update(int id, UpdateWorkingHoursCommand command)
-    {
-      command.SportObjectId = id;
-
-      return await Mediator.Send(command);
-    }
-  }
 }

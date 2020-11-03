@@ -7,29 +7,29 @@ using MediatR;
 
 namespace Application.Countries.Commands.CreateCountry
 {
-  public class CreateCountryCommand : IRequest<int>
-  {
-    public string Name { get; set; }
-  }
-
-  public class CreateCountryCommandHandler : IRequestHandler<CreateCountryCommand, int>
-  {
-    private readonly IAppDbContext _context;
-
-    public CreateCountryCommandHandler(IAppDbContext context)
+    public class CreateCountryCommand : IRequest<int>
     {
-      _context = context;
+        public string Name { get; set; }
     }
 
-    public async Task<int> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
+    public class CreateCountryCommandHandler : IRequestHandler<CreateCountryCommand, int>
     {
-      var country = new Country { Name = request.Name };
+        private readonly IAppDbContext _context;
 
-      _context.Countries.Add(country);
+        public CreateCountryCommandHandler(IAppDbContext context)
+        {
+            _context = context;
+        }
 
-      await _context.SaveChangesAsync(cancellationToken);
+        public async Task<int> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
+        {
+            var country = new Country { Name = request.Name };
 
-      return country.Id;
+            _context.Countries.Add(country);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return country.Id;
+        }
     }
-  }
 }

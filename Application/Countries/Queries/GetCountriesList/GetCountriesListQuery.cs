@@ -10,30 +10,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Countries.Queries.GetCountriesList
 {
-  public class GetCountriesListQuery : IRequest<CountriesListVm>
-  {
-  }
-
-  public class GetCountriesListQueryHandler : IRequestHandler<GetCountriesListQuery, CountriesListVm>
-  {
-    private readonly IAppDbContext _context;
-    private readonly IMapper _maper;
-    public GetCountriesListQueryHandler(IAppDbContext context, IMapper maper)
+    public class GetCountriesListQuery : IRequest<CountriesListVm>
     {
-      _maper = maper;
-      _context = context;
     }
 
-    public async Task<CountriesListVm> Handle(GetCountriesListQuery request, CancellationToken cancellationToken)
+    public class GetCountriesListQueryHandler : IRequestHandler<GetCountriesListQuery, CountriesListVm>
     {
-      var vm = new CountriesListVm();
+        private readonly IAppDbContext _context;
+        private readonly IMapper _mapper;
 
-      vm.Countries = await _context.Countries
-          .ProjectTo<CountryDto>(_maper.ConfigurationProvider)
-          .OrderBy(n => n.Name)
-          .ToListAsync(cancellationToken);
+        public GetCountriesListQueryHandler(IAppDbContext context, IMapper mapper)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
 
-      return vm;
+        public async Task<CountriesListVm> Handle(GetCountriesListQuery request, CancellationToken cancellationToken)
+        {
+            var vm = new CountriesListVm();
+
+            vm.Countries = await _context.Countries
+                .ProjectTo<CountryDto>(_mapper.ConfigurationProvider)
+                .OrderBy(n => n.Name)
+                .ToListAsync(cancellationToken);
+
+            vm.CountriesCount = vm.Countries.Count;
+
+            return vm;
+        }
     }
-  }
 }

@@ -7,33 +7,34 @@ using MediatR;
 
 namespace Application.Cities.Commands.CreateCity
 {
-  public class CreateCityCommand : IRequest<int>
-  {
-    public string Name { get; set; }
-    public int CountryId { get; set; }
-  }
-
-  public class CreateCityCommandHandler : IRequestHandler<CreateCityCommand, int>
-  {
-    private readonly IAppDbContext _context;
-    public CreateCityCommandHandler(IAppDbContext context)
+    public class CreateCityCommand : IRequest<int>
     {
-      _context = context;
+        public string Name { get; set; }
+        public int CountryId { get; set; }
     }
 
-    public async Task<int> Handle(CreateCityCommand request, CancellationToken cancellationToken)
+    public class CreateCityCommandHandler : IRequestHandler<CreateCityCommand, int>
     {
-      var city = new City
-      {
-        Name = request.Name,
-        CountryId = request.CountryId
-      };
+        private readonly IAppDbContext _context;
 
-      _context.Cities.Add(city);
+        public CreateCityCommandHandler(IAppDbContext context)
+        {
+            _context = context;
+        }
 
-      await _context.SaveChangesAsync(cancellationToken);
+        public async Task<int> Handle(CreateCityCommand request, CancellationToken cancellationToken)
+        {
+            var city = new City
+            {
+                Name = request.Name,
+                CountryId = request.CountryId
+            };
 
-      return city.Id;
+            _context.Cities.Add(city);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return city.Id;
+        }
     }
-  }
 }

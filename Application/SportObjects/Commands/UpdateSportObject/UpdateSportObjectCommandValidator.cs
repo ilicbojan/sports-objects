@@ -14,11 +14,11 @@ namespace Application.SportObjects.Commands.UpdateSportObject
     {
       _context = context;
 
-      RuleFor(so => so.Email)
-            .NotEmpty().WithMessage("Email je obavezan")
-            .MaximumLength(256).WithMessage("Email ne sme biti duzi od 256 karaktera")
-            .EmailAddress().WithMessage("Email nije u ispravnom formatu")
-            .MustAsync(BeUniqueEmail).WithMessage("Izabrani email vec postoji");
+      //RuleFor(so => so.Email)
+      //      .NotEmpty().WithMessage("Email je obavezan")
+      //      .MaximumLength(256).WithMessage("Email ne sme biti duzi od 256 karaktera")
+      //      .EmailAddress().WithMessage("Email nije u ispravnom formatu")
+      //      .MustAsync(BeUniqueEmail).WithMessage("Izabrani email vec postoji");
 
       RuleFor(so => so.Name)
             .NotEmpty().WithMessage("Naziv je obavezan")
@@ -46,12 +46,12 @@ namespace Application.SportObjects.Commands.UpdateSportObject
             .MustAsync(CityExists).WithMessage("Izabrani grad ne postoji");
     }
 
-    public async Task<bool> BeUniqueEmail(UpdateSportObjectCommand model, string email, CancellationToken cancellationToken)
-    {
-      return await _context.SportObjects
-            .Where(so => so.Id != model.Id)
-            .AllAsync(so => so.Email != email);
-    }
+    //public async Task<bool> BeUniqueEmail(UpdateSportObjectCommand model, string email, CancellationToken cancellationToken)
+    //{
+    //  return await _context.SportObjects
+    //        .Where(so => so.Id != model.Id)
+    //        .AllAsync(so => so.Email != email);
+    //}
 
     public async Task<bool> BeUniqueName(UpdateSportObjectCommand model, string name, CancellationToken cancellationToken)
     {

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -36,7 +37,7 @@ namespace Application.Users.Queries.LoginAdminUser
         throw new NotFoundException(nameof(AppUser), request.Email);
       }
 
-      var isAdmin = await _userManager.IsInRoleAsync(user, "admin");
+      var isAdmin = await _userManager.IsInRoleAsync(user, RolesEnum.Admin);
 
       if (!isAdmin)
       {
@@ -50,7 +51,7 @@ namespace Application.Users.Queries.LoginAdminUser
 
         return new AdminUserVm
         {
-          Token = _jwtGenerator.CreateToken(user),
+          Token = await _jwtGenerator.CreateToken(user),
           Id = user.Id,
           Username = user.UserName,
         };

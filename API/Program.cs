@@ -12,46 +12,44 @@ using Microsoft.Extensions.Logging;
 
 namespace API
 {
-  public class Program
-  {
-    public async static Task Main(string[] args)
+    public class Program
     {
-      var host = CreateHostBuilder(args).Build();
-
-      using (var scope = host.Services.CreateScope())
-      {
-        var services = scope.ServiceProvider;
-
-        try
+        public async static Task Main(string[] args)
         {
-          var context = services.GetRequiredService<AppDbContext>();
+            var host = CreateHostBuilder(args).Build();
 
-          var userManager = services.GetRequiredService<UserManager<AppUser>>();
-
-          var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-          // migration starting when dotnet run, no need for update-database in cli
-          context.Database.Migrate();
-
-          // seed database on dotnet run
-          await AppDbContextSeed.SeedAsync(context, userManager, roleManager);
-        }
-        catch (Exception ex)
-        {
-          var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
-          logger.LogError(ex, "An error occurred while migrating or seeding the database.");
-        }
-      }
-
-      await host.RunAsync();
-    }
-
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
+            using (var scope = host.Services.CreateScope())
             {
-              webBuilder.UseStartup<Startup>();
-            });
-  }
+                var services = scope.ServiceProvider;
+
+                try
+                {
+                    var context = services.GetRequiredService<AppDbContext>();
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                    // migration starting when dotnet run, no need for update-database in cli
+                    context.Database.Migrate();
+
+                    // seed database on dotnet run
+                    await AppDbContextSeed.SeedAsync(context, userManager, roleManager);
+                }
+                catch (Exception ex)
+                {
+                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+                    logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+                }
+            }
+
+            await host.RunAsync();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }

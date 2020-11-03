@@ -9,29 +9,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Countries.Queries.GetCountryDetails
 {
-  public class GetCountryDetailsQuery : IRequest<CountryVm>
-  {
-    public int Id { get; set; }
-  }
-
-  public class GetCountryDetailsQueryHandler : IRequestHandler<GetCountryDetailsQuery, CountryVm>
-  {
-    private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
-    public GetCountryDetailsQueryHandler(IAppDbContext context, IMapper mapper)
+    public class GetCountryDetailsQuery : IRequest<CountryVm>
     {
-      _mapper = mapper;
-      _context = context;
+        public int Id { get; set; }
     }
 
-    public async Task<CountryVm> Handle(GetCountryDetailsQuery request, CancellationToken cancellationToken)
+    public class GetCountryDetailsQueryHandler : IRequestHandler<GetCountryDetailsQuery, CountryVm>
     {
-      var vm = await _context.Countries
-            .Where(c => c.Id == request.Id)
-            .ProjectTo<CountryVm>(_mapper.ConfigurationProvider)
-            .SingleOrDefaultAsync(cancellationToken);
+        private readonly IAppDbContext _context;
+        private readonly IMapper _mapper;
 
-      return vm;
+        public GetCountryDetailsQueryHandler(IAppDbContext context, IMapper mapper)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
+
+        public async Task<CountryVm> Handle(GetCountryDetailsQuery request, CancellationToken cancellationToken)
+        {
+            var vm = await _context.Countries
+                  .Where(c => c.Id == request.Id)
+                  .ProjectTo<CountryVm>(_mapper.ConfigurationProvider)
+                  .SingleOrDefaultAsync(cancellationToken);
+
+            return vm;
+        }
     }
-  }
 }

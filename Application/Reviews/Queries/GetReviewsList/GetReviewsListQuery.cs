@@ -10,34 +10,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Reviews.Queries.GetReviewsList
 {
-  public class GetReviewsListQuery : IRequest<ReviewsListVm>
-  {
-    public int SportObjectId { get; set; }
-  }
-
-  public class GetReviewsListQueryHandler : IRequestHandler<GetReviewsListQuery, ReviewsListVm>
-  {
-    private readonly IMapper _mapper;
-    private readonly IAppDbContext _context;
-    public GetReviewsListQueryHandler(IAppDbContext context, IMapper mapper)
+    public class GetReviewsListQuery : IRequest<ReviewsListVm>
     {
-      _context = context;
-      _mapper = mapper;
+        public int SportObjectId { get; set; }
     }
 
-    public async Task<ReviewsListVm> Handle(GetReviewsListQuery request, CancellationToken cancellationToken)
+    public class GetReviewsListQueryHandler : IRequestHandler<GetReviewsListQuery, ReviewsListVm>
     {
-      var vm = new ReviewsListVm();
+        private readonly IMapper _mapper;
+        private readonly IAppDbContext _context;
+        public GetReviewsListQueryHandler(IAppDbContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
 
-      vm.Reviews = await _context.Reviews
-          .Where(r => r.SportObjectId == request.SportObjectId)
-          .ProjectTo<ReviewDto>(_mapper.ConfigurationProvider)
-          .OrderByDescending(r => r.CreatedAt)
-          .ToListAsync(cancellationToken);
+        public async Task<ReviewsListVm> Handle(GetReviewsListQuery request, CancellationToken cancellationToken)
+        {
+            var vm = new ReviewsListVm();
 
-      vm.ReviewCount = vm.Reviews.Count;
+            vm.Reviews = await _context.Reviews
+                .Where(r => r.SportObjectId == request.SportObjectId)
+                .ProjectTo<ReviewDto>(_mapper.ConfigurationProvider)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToListAsync(cancellationToken);
 
-      return vm;
+            vm.ReviewCount = vm.Reviews.Count;
+
+            return vm;
+        }
     }
-  }
 }

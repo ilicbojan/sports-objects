@@ -7,35 +7,36 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Users.Commands.UpdateUser
 {
-  public class UpdateUserCommand : IRequest
-  {
-    public string Id { get; set; }
-    public string Email { get; set; }
-  }
-
-  public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
-  {
-    private readonly UserManager<AppUser> _userManager;
-    public UpdateUserCommandHandler(UserManager<AppUser> userManager)
+    public class UpdateUserCommand : IRequest
     {
-      _userManager = userManager;
+        public string Id { get; set; }
+        //public string Email { get; set; }
+        public string Username { get; set; }
     }
 
-    public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
     {
-      var user = await _userManager.FindByIdAsync(request.Id);
+        private readonly UserManager<AppUser> _userManager;
+        public UpdateUserCommandHandler(UserManager<AppUser> userManager)
+        {
+            _userManager = userManager;
+        }
 
-      if (user == null)
-      {
-        throw new NotFoundException(nameof(AppUser), request.Id);
-      }
+        public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(request.Id);
 
-      user.Email = request.Email;
-      user.UserName = request.Email;
+            if (user == null)
+            {
+                throw new NotFoundException(nameof(AppUser), request.Id);
+            }
 
-      await _userManager.UpdateAsync(user);
+            //user.Email = request.Email;
+            user.UserName = request.Username;
 
-      return Unit.Value;
+            await _userManager.UpdateAsync(user);
+
+            return Unit.Value;
+        }
     }
-  }
 }

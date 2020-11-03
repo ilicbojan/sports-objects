@@ -9,6 +9,7 @@ namespace Application.Countries.Commands.CreateCountry
   public class CreateCountryCommandValidator : AbstractValidator<CreateCountryCommand>
   {
     private readonly IAppDbContext _context;
+
     public CreateCountryCommandValidator(IAppDbContext context)
     {
       _context = context;

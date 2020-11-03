@@ -11,47 +11,47 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Roles.Queries.GetRoleDetails
 {
-  public class GetRoleDetailsQuery : IRequest<RoleVm>
-  {
-    public string Id { get; set; }
-  }
-
-  public class GetRoleDetailsQueryHandler : IRequestHandler<GetRoleDetailsQuery, RoleVm>
-  {
-    private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly UserManager<AppUser> _userManager;
-    private readonly IMapper _mapper;
-    public GetRoleDetailsQueryHandler(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IMapper mapper)
+    public class GetRoleDetailsQuery : IRequest<RoleVm>
     {
-      _mapper = mapper;
-      _userManager = userManager;
-      _roleManager = roleManager;
+        public string Id { get; set; }
     }
 
-    public async Task<RoleVm> Handle(GetRoleDetailsQuery request, CancellationToken cancellationToken)
+    public class GetRoleDetailsQueryHandler : IRequestHandler<GetRoleDetailsQuery, RoleVm>
     {
-      var role = await _roleManager.FindByIdAsync(request.Id);
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IMapper _mapper;
+        public GetRoleDetailsQueryHandler(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IMapper mapper)
+        {
+            _mapper = mapper;
+            _userManager = userManager;
+            _roleManager = roleManager;
+        }
 
-      if (role == null)
-      {
-        throw new NotFoundException(nameof(IdentityRole), request.Id);
-      }
+        public async Task<RoleVm> Handle(GetRoleDetailsQuery request, CancellationToken cancellationToken)
+        {
+            var role = await _roleManager.FindByIdAsync(request.Id);
 
-      var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+            if (role == null)
+            {
+                throw new NotFoundException(nameof(IdentityRole), request.Id);
+            }
 
-      var users = new List<UserDto>();
+            var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
 
-      foreach (var user in usersInRole)
-      {
-        users.Add(new UserDto { Id = user.Id, Username = user.UserName });
-      }
+            var users = new List<UserDto>();
 
-      return new RoleVm
-      {
-        Id = role.Id,
-        Name = role.Name,
-        Users = users
-      };
+            foreach (var user in usersInRole)
+            {
+                users.Add(new UserDto { Id = user.Id, Username = user.UserName });
+            }
+
+            return new RoleVm
+            {
+                Id = role.Id,
+                Name = role.Name,
+                Users = users
+            };
+        }
     }
-  }
 }

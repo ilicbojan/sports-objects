@@ -4,10 +4,10 @@ using Domain.Entities;
 
 namespace Application.Countries.Queries.Dtos
 {
-  public class CityDto : IMapFrom<City>
-  {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public IList<SportObjectDto> SportObjects { get; set; }
-  }
+    public class CityDto : IMapFrom<City>
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        //public IList<SportObjectDto> SportObjects { get; set; }
+    }
 }

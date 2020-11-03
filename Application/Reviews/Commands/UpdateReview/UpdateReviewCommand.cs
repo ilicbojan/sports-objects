@@ -7,38 +7,38 @@ using MediatR;
 
 namespace Application.Reviews.Commands.UpdateReview
 {
-  public class UpdateReviewCommand : IRequest
-  {
-    public int SportObjectId { get; set; }
-    public int Rating { get; set; }
-    public string Comment { get; set; }
-  }
-
-  public class UpdateReviewCommandHandler : IRequestHandler<UpdateReviewCommand>
-  {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IAppDbContext _context;
-    public UpdateReviewCommandHandler(IAppDbContext context, ICurrentUserService currentUserService)
+    public class UpdateReviewCommand : IRequest
     {
-      _context = context;
-      _currentUserService = currentUserService;
+        public int SportObjectId { get; set; }
+        public int Rating { get; set; }
+        public string Comment { get; set; }
     }
 
-    public async Task<Unit> Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
+    public class UpdateReviewCommandHandler : IRequestHandler<UpdateReviewCommand>
     {
-      var review = await _context.Reviews.FindAsync(_currentUserService.UserId, request.SportObjectId);
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IAppDbContext _context;
+        public UpdateReviewCommandHandler(IAppDbContext context, ICurrentUserService currentUserService)
+        {
+            _context = context;
+            _currentUserService = currentUserService;
+        }
 
-      if (review == null)
-      {
-        throw new NotFoundException(nameof(Review), new { _currentUserService.UserId, request.SportObjectId });
-      }
+        public async Task<Unit> Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
+        {
+            var review = await _context.Reviews.FindAsync(_currentUserService.UserId, request.SportObjectId);
 
-      review.Rating = request.Rating;
-      review.Comment = request.Comment;
+            if (review == null)
+            {
+                throw new NotFoundException(nameof(Review), new { _currentUserService.UserId, request.SportObjectId });
+            }
 
-      await _context.SaveChangesAsync(cancellationToken);
+            review.Rating = request.Rating;
+            review.Comment = request.Comment;
 
-      return Unit.Value;
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return Unit.Value;
+        }
     }
-  }
 }

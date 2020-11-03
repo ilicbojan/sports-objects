@@ -6,7 +6,7 @@ namespace Application.SportObjects.Queries.Dtos
 {
   public class ReviewDto : IMapFrom<Review>
   {
-    public string Username { get; set; }
+    public UserDto User { get; set; }
     public int Rating { get; set; }
     public string Comment { get; set; }
     public DateTime CreatedAt { get; set; }
