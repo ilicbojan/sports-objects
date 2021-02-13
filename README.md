@@ -4,18 +4,20 @@
 <details open="open">
   <summary>📝 Table of Contents</summary>
   <ul>
-    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#about">About The Project</a></li>
     <li><a href="#features">Features</a></li>
-    <li><a href="#class-diagram">Class Diagram</a></li>
+    <li><a href="#diagram">Class Diagram</a></li>
     <li><a href="#built-using">Built Using</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </details>
-<br>
+
+- [Diagram](#diagram)
+  <br>
 
 <!-- ABOUT THE PROJECT -->
 
-## 🧐 About The Project
+## 🧐 About The Project <a name="about"></a>
 
 ![Demo Image](/WebUI/client-app/public/assets/demo.png/?raw=true 'Demo Image')
 
@@ -25,7 +27,7 @@ Web application for listing sport objects and booking appointments. The goal of 
 
 <br>
 
-## ⭐️ Features
+## ⭐️ Features <a name="features"></a>
 
 - Login & Register
 - Search for Sport Objects
@@ -36,7 +38,7 @@ Web application for listing sport objects and booking appointments. The goal of 
 
 <br>
 
-## 📈 Class Diagram
+## 📈 Class Diagram <a name="diagram"></a>
 
 ![Demo Image](/WebUI/client-app/public/assets/diagram.png/?raw=true 'Demo Image')
 
