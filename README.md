@@ -42,7 +42,7 @@ Web application for listing sport objects and booking appointments. The goal of 
 
 <br>
 
-## ⛏️ Built Using <a name="#built"></a>
+## 🔨 Built Using <a name="#built"></a>
 
 - [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)
 - [ASP.NET Core WebAPI](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-5.0)
