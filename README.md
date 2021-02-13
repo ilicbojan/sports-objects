@@ -7,13 +7,11 @@
     <li><a href="#about">About The Project</a></li>
     <li><a href="#features">Features</a></li>
     <li><a href="#diagram">Class Diagram</a></li>
-    <li><a href="#built-using">Built Using</a></li>
+    <li><a href="#built">Built Using</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </details>
-
-- [Diagram](#diagram)
-  <br>
+<br>
 
 <!-- ABOUT THE PROJECT -->
 
@@ -44,7 +42,7 @@ Web application for listing sport objects and booking appointments. The goal of 
 
 <br>
 
-## ⛏️ Built Using
+## ⛏️ Built Using <a name="#built"></a>
 
 - [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)
 - [ASP.NET Core WebAPI](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-5.0)
@@ -60,7 +58,7 @@ Web application for listing sport objects and booking appointments. The goal of 
 
 <!-- CONTACT -->
 
-## 📞 Contact
+## 📞 Contact <a name="contact"></a>
 
 Bojan Ilic - bojan.ilic2404@gmail.com - [LinkedIn](https://www.linkedin.com/in/ilic-bojan/) - [Portfolio](https://ilicbojan.com)
 
