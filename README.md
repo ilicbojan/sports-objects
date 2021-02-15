@@ -1,4 +1,4 @@
-# Sport Objects · [Demo](https://sport-objects.azurewebsites.net/) · [Code](https://github.com/ilicbojan/sport-objects)
+# Sport Objects · [Demo](https://sport-objects.azurewebsites.net/) · [Code](https://github.com/ilicbojan/sports-objects)
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -64,4 +64,4 @@ Bojan Ilic - bojan.ilic2404@gmail.com - [LinkedIn](https://www.linkedin.com/in/i
 
 Project Demo: [https://sport-objects.azurewebsites.net/](https://sport-objects.azurewebsites.net/)
 
-Project Source Code: [https://github.com/ilicbojan/sport-objects](https://github.com/ilicbojan/sport-objects)
+Project Source Code: [https://github.com/ilicbojan/sport-objects](https://github.com/ilicbojan/sports-objects)
