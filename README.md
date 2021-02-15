@@ -11,7 +11,6 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
 </details>
-<br>
 
 <!-- ABOUT THE PROJECT -->
 
@@ -19,11 +18,7 @@
 
 ![Demo Image](/WebUI/client-app/public/assets/demo.png/?raw=true 'Demo Image')
 
-<br>
-
 Web application for listing sport objects and booking appointments. The goal of the web application is to enable people to advertise their sports objects and have a well-organized schedule. On the other hand, users can find sports objects easier because all of them are in one place. The user can book an appointment online in a very simple way. Application have 3 different roles: administrator, client, and user.
-
-<br>
 
 ## ⭐️ Features <a name="features"></a>
 
@@ -34,13 +29,9 @@ Web application for listing sport objects and booking appointments. The goal of 
 - Write Reviews
 - Add Sport Objects to Favourites
 
-<br>
-
 ## 📈 Class Diagram <a name="diagram"></a>
 
 ![Demo Image](/WebUI/client-app/public/assets/diagram.png/?raw=true 'Demo Image')
-
-<br>
 
 ## 🔨 Built Using <a name="built"></a>
 
@@ -54,7 +45,6 @@ Web application for listing sport objects and booking appointments. The goal of 
 - [TypeScript](https://www.typescriptlang.org/)
 - [React](https://reactjs.org/)
 
-<br>
 
 <!-- CONTACT -->
 
