@@ -18,16 +18,16 @@
 
 ![Demo Image](/WebUI/client-app/public/assets/demo.png/?raw=true 'Demo Image')
 
-Web application for listing sport objects and booking appointments. The goal of the web application is to enable people to advertise their sports objects and have a well-organized schedule. On the other hand, users can find sports objects easier because all of them are in one place. The user can book an appointment online in a very simple way. Application have 3 different roles: administrator, client, and user.
+Web application for listing sports objects and booking appointments. The goal of the web application is to enable people to advertise their sports objects and have a well-organized schedule. On the other hand, users can find sports objects easier because all of them are in one place. The user can book an appointment online in a very simple way. Application has 3 different roles: administrator, client, and user.
 
 ## ⭐️ Features <a name="features"></a>
 
 - Login & Register
-- Search for Sport Objects
+- Search for Sports Objects
 - Find Free Terms
 - Book Appointments
 - Write Reviews
-- Add Sport Objects to Favourites
+- Add Sports Objects to Favourites
 
 ## 📈 Class Diagram <a name="diagram"></a>
 
@@ -36,7 +36,7 @@ Web application for listing sport objects and booking appointments. The goal of 
 ## 🔨 Built Using <a name="built"></a>
 
 - [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)
-- [ASP.NET Core WebAPI](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-5.0)
+- [ASP.NET Core Web API](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-5.0)
 - [Entity Framework Core](https://docs.microsoft.com/en-us/ef/)
 - [MS SQL](https://www.microsoft.com/en-us/sql-server/sql-server-2019)
 - [HTML](https://www.w3schools.com/html/)
