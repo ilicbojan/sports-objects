@@ -10,7 +10,7 @@
     <li><a href="#built">Built Using</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-</details>
+</details> 
 
 <!-- ABOUT THE PROJECT -->
 
